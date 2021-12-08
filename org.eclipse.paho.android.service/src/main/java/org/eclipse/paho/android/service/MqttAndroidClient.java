@@ -46,6 +46,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.eclipse.paho.client.mqttv3.MqttToken;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -1775,5 +1776,10 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 				registerReceiver(this);
 			}
 		}
+	}
+
+	@Override
+	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
+		mqttService.sendNoWait(clientHandle, message, token);
 	}
 }

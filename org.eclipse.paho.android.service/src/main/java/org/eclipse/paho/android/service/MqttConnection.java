@@ -31,6 +31,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+import org.eclipse.paho.client.mqttv3.MqttToken;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 import android.app.Service;
@@ -1140,5 +1142,9 @@ class MqttConnection implements MqttCallbackExtended {
 
 	public void deleteBufferedMessage(int bufferIndex){
 		myClient.deleteBufferedMessage(bufferIndex);
+	}
+
+	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
+		myClient.sendNoWait(message, token);
 	}
 }
