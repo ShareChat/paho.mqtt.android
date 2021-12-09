@@ -26,7 +26,7 @@ ext{
     sampleVersion = '1.1.1'
 
     serviceArchivesBaseName = 'org.eclipse.paho.android.service'
-    serviceVersion = '1.1.1.exposed-send-no-wait'
+    serviceVersion = '1.1.1.exposed-send-no-wait.1'
 
     clientVersion = '1.1.0'
 
