@@ -852,6 +852,9 @@ public class MqttService extends Service implements MqttTraceHandler {
     }
 
     public void sendNoWait(String clientHandle, MqttWireMessage message, MqttToken token) throws MqttException {
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mqtt:ping");
+        wl.acquire(3000);
         MqttConnection client = getConnection(clientHandle);
         client.sendNoWait(message, token);
     }
