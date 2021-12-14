@@ -20,13 +20,13 @@ ext{
     buildToolsVersion = '23.0.3'
 
 
-    group = 'org.eclipse.paho'
+    group = 'in.mohalla.paho'
 
-    sampleArchivesBaseName = 'org.eclipse.paho.android.sample'
+    sampleArchivesBaseName = 'in.mohalla.paho.android.sample'
     sampleVersion = '1.1.1'
 
-    serviceArchivesBaseName = 'org.eclipse.paho.android.service'
-    serviceVersion = '1.1.1.exposed-send-no-wait.1'
+    serviceArchivesBaseName = 'in.mohalla.paho.android.service'
+    serviceVersion = '1.1.1.2'
 
     clientVersion = '1.1.0'
 

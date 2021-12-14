@@ -84,7 +84,8 @@ task("generateJavaDocJar", type: Jar){
 publishing {
     publications {
         paho(MavenPublication) {
-            groupId 'org.eclipse.paho'
+            groupId rootProject.ext.group
+            artifactId rootProject.ext.serviceArchivesBaseName
             artifact "$buildDir/outputs/aar/" + rootProject.ext.serviceArchivesBaseName + "-" + rootProject.ext.serviceVersion + ".aar"
         }
     }
