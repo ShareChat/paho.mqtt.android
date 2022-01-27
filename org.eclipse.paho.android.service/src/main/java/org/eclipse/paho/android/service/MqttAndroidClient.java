@@ -48,12 +48,14 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.eclipse.paho.client.mqttv3.MqttToken;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -156,6 +158,10 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 
 	private volatile boolean receiverRegistered = false;
 	private volatile boolean bindedService = false;
+
+	// Foreground notification
+	private int foregroundServiceNotificationId = 1;
+	private Notification foregroundServiceNotification;
 
 	/**
 	 * Constructor - create an MqttAndroidClient that can be used to communicate with an MQTT server on android
@@ -412,7 +418,25 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 		if (mqttService == null) { // First time - must bind to the service
 			Intent serviceStartIntent = new Intent();
 			serviceStartIntent.setClassName(myContext, SERVICE_NAME);
-			Object service = myContext.startService(serviceStartIntent);
+			Object service = null;
+			if (Build.VERSION.SDK_INT >= 26 && foregroundServiceNotification != null) {
+				serviceStartIntent.putExtra(
+						MqttService.PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION,
+						foregroundServiceNotification);
+				serviceStartIntent.putExtra(
+						MqttService.PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION_ID,
+						foregroundServiceNotificationId);
+				service = myContext.startForegroundService(serviceStartIntent);
+			} else {
+				try {
+					service = myContext.startService(serviceStartIntent);
+				} catch (Exception e) {
+					IMqttActionListener listener = token.getActionCallback();
+					if (listener != null) {
+						listener.onFailure(token, e);
+					}
+				}
+			}
 			if (service == null) {
 				IMqttActionListener listener = token.getActionCallback();
 				if (listener != null) {
@@ -1781,5 +1805,16 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 	@Override
 	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
 		mqttService.sendNoWait(clientHandle, message, token);
+	}
+
+	/**
+	 *
+	 * @param notification - ForegroundServiceNotification
+	 * @param id - ID of the foreground service notification.
+	 *
+	 */
+	public void setForegroundService(Notification notification, int id) {
+		this.foregroundServiceNotification = notification;
+		this.foregroundServiceNotificationId = id;
 	}
 }

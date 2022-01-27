@@ -31,6 +31,7 @@ import org.eclipse.paho.client.mqttv3.MqttToken;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -229,6 +230,9 @@ public class MqttService extends Service implements MqttTraceHandler {
 
     // Identifier for Intents, log messages, etc..
     static final String TAG = "MqttService";
+
+    static final String PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION = MqttService.class.getSimpleName() + ".FOREGROUND_SERVICE_NOTIFICATION_ID";
+    static final String PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION_ID = MqttService.class.getSimpleName() + ".FOREGROUND_SERVICE_NOTIFICATION";
 
     // callback id for making trace callbacks to the Activity
     // needs to be set by the activity as appropriate
@@ -620,6 +624,15 @@ public class MqttService extends Service implements MqttTraceHandler {
         // run till explicitly stopped, restart when
         // process restarted
         registerBroadcastReceivers();
+        if (Build.VERSION.SDK_INT >= 26 && intent != null) {
+            Notification foregroundServiceNotification
+                    = (Notification) (intent.getParcelableExtra(PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION));
+            if (foregroundServiceNotification != null)
+                startForeground(
+                        intent.getIntExtra(PAHO_MQTT_FOREGROUND_SERVICE_NOTIFICATION_ID, 1),
+                        foregroundServiceNotification
+                );
+        }
 
         return START_STICKY;
     }
