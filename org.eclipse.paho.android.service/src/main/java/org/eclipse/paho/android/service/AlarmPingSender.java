@@ -50,6 +50,7 @@ class AlarmPingSender implements MqttPingSender {
 	private AlarmPingSender that;
 	private PendingIntent pendingIntent;
 	private volatile boolean hasStarted = false;
+	private int pendingIntentFlags;
 
 	public AlarmPingSender(MqttService service) {
 		if (service == null) {
@@ -58,6 +59,11 @@ class AlarmPingSender implements MqttPingSender {
 		}
 		this.service = service;
 		that = this;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			pendingIntentFlags = PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT;
+		} else {
+			pendingIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+		}
 	}
 
 	@Override
@@ -74,7 +80,7 @@ class AlarmPingSender implements MqttPingSender {
 		service.registerReceiver(alarmReceiver, new IntentFilter(action));
 
 		pendingIntent = PendingIntent.getBroadcast(service, 0, new Intent(
-				action), PendingIntent.FLAG_IMMUTABLE);
+				action), pendingIntentFlags);
 
 		schedule(comms.getKeepAlive());
 		hasStarted = true;
