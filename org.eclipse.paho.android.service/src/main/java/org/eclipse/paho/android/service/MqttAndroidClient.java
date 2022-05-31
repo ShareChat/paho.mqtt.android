@@ -109,11 +109,25 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder binder) {
-			mqttService = ((MqttServiceBinder) binder).getService();
-			bindedService = true;
-			// now that we have the service available, we can actually
-			// connect...
-			doConnect();
+			try {
+				if (MqttServiceBinder.class.isAssignableFrom(binder.getClass())) {
+					mqttService = ((MqttServiceBinder) binder).getService();
+					bindedService = true;
+					// now that we have the service available, we can actually
+					// connect...
+					doConnect();
+				} else {
+					IMqttActionListener listener = connectToken.getActionCallback();
+					if (listener != null) {
+						listener.onFailure(connectToken, new Exception("Could not initiate connection"));
+					}
+				}
+			} catch (Exception e) {
+				IMqttActionListener listener = connectToken.getActionCallback();
+				if (listener != null) {
+					listener.onFailure(connectToken, e);
+				}
+			}
 		}
 
 		@Override
