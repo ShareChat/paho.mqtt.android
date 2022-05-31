@@ -487,6 +487,16 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 			if (listener != null) {
 				listener.onFailure(connectToken, e);
 			}
+		}catch (IllegalArgumentException e) {
+			IMqttActionListener listener = connectToken.getActionCallback();
+			if (listener != null) {
+				listener.onFailure(connectToken, e);
+			}
+		}catch(Exception e){
+			IMqttActionListener listener = connectToken.getActionCallback();
+			if (listener != null) {
+				listener.onFailure(connectToken, e);
+			}
 		}
 	}
 
