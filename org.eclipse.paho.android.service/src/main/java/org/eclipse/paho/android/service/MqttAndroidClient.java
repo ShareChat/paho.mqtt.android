@@ -1788,7 +1788,6 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 		}
 	}
 
-	@Override
 	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
 		mqttService.sendNoWait(clientHandle, message, token);
 	}
