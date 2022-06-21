@@ -1,3 +1,10 @@
+# Note- 
+Please add the following proeprties to `local.properties` before publishing artifacts to github.
+```
+GITHUB_USERNAME
+GITHUB_PACKAGE_KEY
+```
+
 # Eclipse Paho Android Service
 [![Build Status](https://travis-ci.org/eclipse/paho.mqtt.android.svg?branch=master)](https://travis-ci.org/eclipse/paho.mqtt.android)
 

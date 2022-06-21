@@ -4,13 +4,15 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
-	    classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+apply plugin: 'java-library'
 
 ext{
 
@@ -18,9 +20,9 @@ ext{
     buildToolsVersion = '23.0.3'
 
 
-    group = 'org.eclipse.paho'
+    group = 'in.mohalla.paho'
 
-    sampleArchivesBaseName = 'org.eclipse.paho.android.sample'
+    sampleArchivesBaseName = 'in.mohalla.paho.android.sample'
     sampleVersion = '1.1.1'
 
     serviceArchivesBaseName = 'in.mohalla.paho.android.service'
@@ -53,6 +55,7 @@ def sdkDir = androidHomeIsDefined ? androidHome : getSdkDirFromLocalProperties()
 
 println "SDK dir: $sdkDir"
 
+apply from: './user.gradle'
 
 allprojects {
 
@@ -74,4 +77,8 @@ allprojects {
 
     version = rootProject.ext.serviceVersion
     group = rootProject.ext.group
+    ext.localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+    ext.guser = localProperties['GITHUB_USERNAME']
+    ext.gtoken = localProperties['GITHUB_PACKAGE_KEY']
 }

@@ -1145,4 +1145,8 @@ class MqttConnection implements MqttCallbackExtended {
 	public void deleteBufferedMessage(int bufferIndex){
 		myClient.deleteBufferedMessage(bufferIndex);
 	}
+
+	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
+		myClient.sendNoWait(message, token);
+	}
 }
