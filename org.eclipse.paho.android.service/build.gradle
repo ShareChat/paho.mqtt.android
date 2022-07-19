@@ -42,7 +42,7 @@ configurations {
 
 dependencies {
     implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
-    implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.2.6.send-no-wait-exposed"
+    implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.2.7.timer-ping-sender"
 }
 
 android.libraryVariants.all { variant ->
