@@ -42,7 +42,7 @@ configurations {
 
 dependencies {
     implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
-    implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.2.7.timer-ping-sender"
+    implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.2.8.mqtt-suback-failure"
 }
 
 android.libraryVariants.all { variant ->
