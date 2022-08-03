@@ -26,7 +26,7 @@ ext{
     sampleVersion = '1.1.1'
 
     serviceArchivesBaseName = 'in.mohalla.paho.android.service'
-    serviceVersion = '1.1.1.6-timer-ping-sender'
+    serviceVersion = '1.1.1.7-handle-suback-failure'
 
     clientVersion = '1.1.0'
 
