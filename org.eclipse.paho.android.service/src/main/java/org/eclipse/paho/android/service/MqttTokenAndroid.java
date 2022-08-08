@@ -19,6 +19,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 
+import java.util.List;
+
 /**
  * <p>
  * Implementation of the IMqttToken interface for use from within the
@@ -122,6 +124,17 @@ class MqttTokenAndroid implements IMqttToken {
       waitObject.notifyAll();
       if (listener != null) {
         listener.onSuccess(this);
+      }
+    }
+  }
+
+  /**
+   * notify successful completion of the subscribe operation
+   */
+  void notifySubscription(List<String> successTopics, List<String> failedTopics) {
+    synchronized (waitObject) {
+      if (listener != null) {
+        listener.onSubscribeResult(this, successTopics, failedTopics);
       }
     }
   }

@@ -23,6 +23,8 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -1526,6 +1528,28 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 		}
 	}
 
+	private void subscribeResultAction(IMqttToken token, Bundle data) {
+		if (token != null) {
+			int[] grantedQos = data.getIntArray(MqttServiceConstants.GRANTED_QOS);
+			String[] topics = token.getTopics();
+			List<String> successTopics = new ArrayList<>();
+			List<String> failedTopics = new ArrayList<>();
+			if (grantedQos != null) {
+				for (int i = 0; i < topics.length; i++) {
+					if (grantedQos[i] == 128) {
+						failedTopics.add(topics[i]);
+					} else {
+						successTopics.add(topics[i]);
+					}
+				}
+			}
+
+			((MqttTokenAndroid) token).notifySubscription(successTopics, failedTopics);
+		} else {
+			mqttService.traceError(MqttService.TAG, "subscribeResultAction : token is null");
+		}
+	}
+
 	/**
 	 * Process notification of a publish(send) operation
 	 *
@@ -1544,6 +1568,7 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 	 */
 	private void subscribeAction(Bundle data) {
 		IMqttToken token = removeMqttToken(data);
+		subscribeResultAction(token, data);
 		simpleAction(token, data);
 	}
 
