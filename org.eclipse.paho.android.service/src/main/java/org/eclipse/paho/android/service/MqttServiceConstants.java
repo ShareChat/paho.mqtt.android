@@ -46,6 +46,7 @@ interface MqttServiceConstants {
   String MESSAGE_DELIVERED_ACTION = "messageDelivered";
   String ON_CONNECTION_LOST_ACTION = "onConnectionLost";
   String TRACE_ACTION = "trace";
+  String GRANTED_QOS = "grantedQos";
 
   /* Identifies an Intent which calls back to the Activity */
   String CALLBACK_TO_ACTIVITY = MqttService.TAG

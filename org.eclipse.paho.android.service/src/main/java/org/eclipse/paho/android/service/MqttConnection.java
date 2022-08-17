@@ -34,6 +34,7 @@ import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.MqttPingSender;
 import org.eclipse.paho.client.mqttv3.MqttToken;
 import org.eclipse.paho.client.mqttv3.TimerPingSender;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttSuback;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
@@ -987,6 +988,9 @@ class MqttConnection implements MqttCallbackExtended {
 
 		@Override
 		public void onSuccess(IMqttToken asyncActionToken) {
+			if (asyncActionToken.getResponse() != null && asyncActionToken.getResponse() instanceof MqttSuback) {
+				resultBundle.putIntArray(MqttServiceConstants.GRANTED_QOS, asyncActionToken.getGrantedQos());
+			}
 			service.callbackToActivity(clientHandle, Status.OK, resultBundle);
 		}
 
