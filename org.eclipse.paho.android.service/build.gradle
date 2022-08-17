@@ -42,8 +42,7 @@ configurations {
 
 dependencies {
     implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
-    //implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.2.7.timer-ping-sender"
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "in.mohalla.paho:in.mohalla.paho.client.mqttv3:1.3.0"
 }
 
 android.libraryVariants.all { variant ->

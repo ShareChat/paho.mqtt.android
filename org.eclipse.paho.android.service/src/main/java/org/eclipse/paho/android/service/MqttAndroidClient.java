@@ -1535,7 +1535,8 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 			List<String> successTopics = new ArrayList<>();
 			List<String> failedTopics = new ArrayList<>();
 			if (grantedQos != null) {
-				for (int i = 0; i < topics.length; i++) {
+				int topicSize = topics.length;
+				for (int i = 0; i < topicSize; i++) {
 					if (grantedQos[i] == 128) {
 						failedTopics.add(topics[i]);
 					} else {
