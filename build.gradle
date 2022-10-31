@@ -55,6 +55,7 @@ def sdkDir = androidHomeIsDefined ? androidHome : getSdkDirFromLocalProperties()
 
 println "SDK dir: $sdkDir"
 
+apply from: './user.gradle'
 
 allprojects {
 
@@ -64,6 +65,14 @@ allprojects {
             url "file://$sdkDir/extras/android/m2repository/"
         }
         google()
+        maven {
+            name = "ShareChatPackages"
+            url = uri("https://maven.pkg.github.com/ShareChat/paho.mqtt.java")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME") ?: "${guser}"
+                password = System.getenv("GITHUB_PACKAGE_KEY") ?: "${gtoken}"
+            }
+        }
     }
 
     version = rootProject.ext.serviceVersion
