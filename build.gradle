@@ -26,7 +26,7 @@ ext{
     sampleVersion = '1.1.1'
 
     serviceArchivesBaseName = 'in.mohalla.paho.android.service'
-    serviceVersion = '1.1.1.8'
+    serviceVersion = '1.1.1.9'
 
     clientVersion = '1.1.0'
 
